@@ -14,6 +14,8 @@ class User(UserMixin,db.Model):
     username = db.Column(db.String(48), unique = True, index=True)
     email = db.Column(db.String(48),unique=True, index = True)
     hash_pass = db.Column(db.String(255)) 
+    blogs = db.relationship('Blog',backref = 'user',lazy = "dynamic")
+    comment = db.relationship('Comment',backref = 'user',lazy = "dynamic")
 
     @property
     def password(self):
@@ -37,7 +39,8 @@ class Blog(db.Model):
     blog_content = db.Column(db.String())
     date_posted = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
     blog_pic = db.Column(db.String(255))
-    # photo_url = db.Column(db.String(500))
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id')
+  
     
     comment = db.relationship('Comment',backref='blog',lazy='dynamic')
     photo = db.relationship('Photo', backref='blog',lazy='dynamic')
@@ -99,3 +102,25 @@ class Photo(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     photo_data = db.Column(db.String(255))
     blog_id = db.Column(db.Integer, db.ForeignKey('blogs.id'))
+
+
+class Subscriber(UserMixin, db.Model):
+    __tablename__="subscribers"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    title = db.Column(db.String(255))
+    email = db.Column(db.String(255),unique = True,index = True)
+
+
+    def save_subscriber(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_subscribers(cls,id):
+        return Subscriber.query.all()
+         
+
+    def __repr__(self):
+        return f'User {self.email}'
