@@ -1,0 +1,36 @@
+{% extends 'base.html'%}
+
+# imported form flask bootstrap allowing rendering of forms
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+{% for message in get_flashed_messages() %}
+{{message}}
+{% endfor%}
+
+<div class="jumbotron">
+
+
+    <form>
+  <div class="form-group">
+        {{ wtf.quick_form(comment_form) }}
+    <hr>
+  </div>
+</form>
+    
+
+{% for comment in comments  %}
+
+
+<div class="card" style="width: 60rem;">
+        <div class="card-body">
+          <p class="card-text"><ul>{{comment.description}}</ul>
+            {% if current_user.is_authenticated %}</p>
+          <a href="/delete1/{{comment.id}}" class="card-link"><button class= "button button-primary"></button></a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
+    {% endif %}
+{% endfor %}
+</div>
+{% endblock%}

@@ -49,18 +49,18 @@ def update_pic(uname):
     return redirect(url_for('main.profile',uname=uname))
 
 #routing for may food blog/saving and displaying/2.for the user to receive an email each time a new blog is posted
-@main.route('/food', methods=['GET','POST'])
+@main.route('/blog', methods=['GET','POST'])
 @login_required
-def food():
+def blog():
     blog_form=BlogForm()
     if blog_form.validate_on_submit():        
-        food = Blog(category=blog_form.category.data,title = blog_form.title.data)
-        db.session.add(food)
+        new_blog = Blog(category=blog_form.category.data,title = blog_form.title.data)
+        db.session.add(new_blog)
         db.session.commit()
     subscribers = Subscriber.query.all()
     for email in subscribers:
-        mail_message("Hey Welcome To My Blog ","email/welcome_post",email.email,subscribers=subscribers)
-    return render_template('food.html',blog_form=blog_form) 
+        mail_message("Hello Welcome To your Health Is Your Wealth Blog ","email/welcome_post",email.email,subscribers=subscribers)
+    return render_template('blog.html',blog_form=blog_form) 
 
 #routing for subscribers/receive email after subscription
 @main.route('/', methods=['GET','POST'])
@@ -91,12 +91,12 @@ def comment(id):
 def delete(id):
     try:
         if current_user.is_authenticated:
-            blog = Blog.query.filter_by(id=id).all()
-            for blogs in blog: 
-                db.session.delete(blogs)
+            blogs = Blog.query.filter_by(id=id).all()
+            for blog in blogs: 
+                db.session.delete(blog)
                 db.session.commit()
-            return redirect(url_for('main.food'))
-        return ''
+            return redirect(url_for('main.blog'))
+        return '  '
     except Exception as e:
         return(str(e))    
 
@@ -107,7 +107,7 @@ def delete1(id):
         if current_user.is_authenticated:
             comment_form=CommentForm()
             comment = Comment.query.filter_by(comment_id=id).first()
-            for comments in comment: 
+            for comment in comments: 
                 db.session.delete(comment)
                 db.session.commit()
             return redirect(url_for('main.comment'))
