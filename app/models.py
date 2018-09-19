@@ -32,33 +32,6 @@ class User(UserMixin,db.Model):
         return check_password_hash(self.hash_pass,password)  
      
 
-class Blog(db.Model):
-    __tablename__='blogs'
-    id = db.Column(db.Integer,primary_key=True)
-    title = db.Column(db.String())
-    blog_content = db.Column(db.String())
-    date_posted = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
-    blog_pic = db.Column(db.String(255))
-    user_id = db.Column(db.Integer,db.ForeignKey('users.id')
-  
-    
-    comment = db.relationship('Comment',backref='blog',lazy='dynamic')
-    photo = db.relationship('Photo', backref='blog',lazy='dynamic')
-
-    def save_blog(self):
-        db.session.add(self)
-        db.session.commit()
-    
-    @classmethod
-    def get_all_blogs(cls):
-        blogs = Blog.query.order_by('-id').all()
-        return blogs
-
-    @classmethod
-    def get_single_blog(cls,id):
-        blog = Blog.query.filter_by(id=id).first()
-        return blog
-
 class Comment(db.Model):
     __tablename__='comments'
     id = db.Column(db.Integer, primary_key=True)
@@ -66,6 +39,7 @@ class Comment(db.Model):
     comment_content = db.Column(db.String())
     date_comment = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
     blog_id = db.Column(db.Integer, db.ForeignKey('blogs.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     def save_comment(self):
         db.session.add(self)
@@ -123,3 +97,34 @@ class Subscriber(UserMixin, db.Model):
 
     def __repr__(self):
         return f'User {self.email}'
+
+
+class Blog(db.Model):
+    __tablename__='blogs'
+
+    id = db.Column(db.Integer,primary_key = True)
+    name = db.Column(db.String(255))
+    title = db.Column(db.String(255))
+    description = db.Column(db.String(255))
+    category = db.Column(db.String(255))
+    posted = db.Column(db.DateTime,default=datetime.utcnow)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    comment = db.relationship('Comment',backref = 'blogs',lazy = "dynamic")
+    # email = db.Column(db.String(255),unique = True,index = True)
+ 
+
+    def save_blog(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_blogs(cls,id):
+        blogs = Blog.query.all()
+        return blogs
+
+    def delete_blog(self):
+        db.session.query(Blog).delete()
+        db.session.commit()    
+
+    def __repr__(self):
+        return f'User {self.name}'        

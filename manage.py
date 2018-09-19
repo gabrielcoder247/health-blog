@@ -1,6 +1,6 @@
 from app import create_app,db
 from flask_script import Manager,Server
-from app.models import User,Blog
+from app.models import User,Blog,Comment
 from  flask_migrate import Migrate, MigrateCommand
 
 app = create_app('development')
@@ -23,6 +23,6 @@ def test():
 #this decorator allows us to pass properties into my shell     
 @manager.shell
 def make_shell_context():
-    return dict(app = app,db = db,User=User,Blog=Blog)
+    return dict(app = app,db = db,User=User,Blog=Blog, Comment=Comment)
 if __name__ == '__main__':
     manager.run()

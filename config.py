@@ -20,9 +20,10 @@ class Config:
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")       
     # enable CSRF secret key
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    # SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = '12345'
     #database url setup
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://nayioma:qwerty@localhost/blog'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://gabrielcoder:dushanbe2015@localhost/healthblog'
 
     @staticmethod
     def init_app(app):
@@ -33,16 +34,15 @@ class ProdConfig(Config):
     
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
-class TestConfig(Config):
+
    
 
 class DevConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://nayioma:qwerty@localhost/blog'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://gabrielcoder:dushanbe2015@localhost/healthblog'
     DEBUG = True
-#sserver configuration settings
+#server configuration settings
+
 config_options = {
 'development':DevConfig,
-'production':ProdConfig,
-'test':TestConfig
-
+'production':ProdConfig
 } 
