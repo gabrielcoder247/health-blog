@@ -1,0 +1,5 @@
+Hello {{user.name}}
+Welcome to my Health Blog
+
+we acknowledged your registration to join the family of good health for better living.you'd always get any update from us via this media.
+Once again you are welcome.

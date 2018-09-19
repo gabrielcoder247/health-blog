@@ -73,7 +73,7 @@ def subscriber():
         mail_message("Hey Welcome To My Blog ","email/welcome_subscriber",subscriber.email,subscriber=subscriber)
     subscriber = Blog.query.all()
     food = Blog.query.all()
-    return render_template('index.html',subscriber=subscriber,subscriber_form=subscriber_form,food=food) 
+    return render_template('index.html',subscribers=subscriber,subscriber_form=subscriber_form,food=food) 
 
 #view function for comment display
 @main.route('/comments/<int:id>', methods=['GET','POST'])
