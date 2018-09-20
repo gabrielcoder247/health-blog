@@ -73,14 +73,14 @@ def subscriber():
         mail_message("Hey Welcome To My Blog ","email/welcome_subscriber",subscriber.email,subscriber=subscriber)
     subscriber = Blog.query.all()
     food = Blog.query.all()
-    return render_template('index.html',subscribers=subscriber,subscriber_form=subscriber_form,food=food) 
+    return render_template('index.html',subscriber=subscriber,subscriber_form=subscriber_form,blog=blog) 
 
 #view function for comment display
 @main.route('/comments/<int:id>', methods=['GET','POST'])
 def comment(id):
     comment_form=CommentForm()
     if comment_form.validate_on_submit():
-        new_comment = Comment(description=comment_form.description.data,blog_id=id)
+        new_comment = Comment(description=comment_form.describe.data,blog_id=id)
         db.session.add(new_comment)
         db.session.commit()
     comments = Comment.query.filter_by(blog_id=id)
@@ -101,8 +101,8 @@ def delete(id):
         return(str(e))    
 
 #deleting a comment by the admin
-@main.route('/delete1/<int:id>', methods=['GET','POST'])
-def delete1(id):
+@main.route('/del/<int:id>', methods=['GET','POST'])
+def deleted(id):
     try:
         if current_user.is_authenticated:
             comment_form=CommentForm()

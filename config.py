@@ -17,10 +17,12 @@ class Config:
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
-    MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
-    MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")       
+    # MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
+    # MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")       
     # enable CSRF secret key
     # SECRET_KEY = os.environ.get('SECRET_KEY')
+    MAIL_USERNAME = 'gabrielcoder247'
+    MAIL_PASSWORD = '@dushanbe2015'
     SECRET_KEY = '12345'
     #database url setup
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://gabrielcoder:dushanbe2015@localhost/healthblog'

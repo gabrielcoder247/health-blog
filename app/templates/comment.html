@@ -22,12 +22,11 @@
 {% for comment in comments  %}
 
 
-<div class="card" style="width: 60rem;">
+<div class="card" style="width: 40rem;">
         <div class="card-body">
           <p class="card-text"><ul>{{comment.description}}</ul>
             {% if current_user.is_authenticated %}</p>
-          <a href="/delete1/{{comment.id}}" class="card-link"><button class= "button button-primary"></button></a>
-          <a href="#" class="card-link">Another link</a>
+          <a href="/deleted/{{comment.id}}" class="card-link"><button class= "button button-primary">delete</button></a>
         </div>
       </div>
     {% endif %}
