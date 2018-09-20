@@ -48,7 +48,7 @@ def update_pic(uname):
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
 
-#routing for may food blog/saving and displaying/2.for the user to receive an email each time a new blog is posted
+
 @main.route('/blog', methods=['GET','POST'])
 @login_required
 def blog():
@@ -114,4 +114,6 @@ def deleted(id):
         return ''
     except Exception as e:
         return(str(e))    
+
+        
 

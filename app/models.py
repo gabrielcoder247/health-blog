@@ -13,7 +13,9 @@ class User(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(48), unique = True, index=True)
     email = db.Column(db.String(48),unique=True, index = True)
+    # profile_pic_path = db.Column(db.String())
     hash_pass = db.Column(db.String(255)) 
+    bio = db.Column(db.String(255))
     blogs = db.relationship('Blog',backref = 'user',lazy = "dynamic")
     comment = db.relationship('Comment',backref = 'user',lazy = "dynamic")
 
@@ -36,8 +38,9 @@ class Comment(db.Model):
     __tablename__='comments'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
+    description = db.Column(db.String(255))
     comment_content = db.Column(db.String())
-    date_comment = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
+    posted = db.Column(db.DateTime, nullable=False, default = datetime.utcnow)
     blog_id = db.Column(db.Integer, db.ForeignKey('blogs.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
@@ -54,6 +57,11 @@ class Comment(db.Model):
     def get_single_comment(cls,id_blog,id):
         comment = Comment.query.filter_by(blog_id=id_blog,id=id).first()
         return comment
+
+
+
+    def __repr__(self):
+        return f'User {self.name}'    
 
 class Email(db.Model):
     __tablename__='emails'
@@ -110,7 +118,7 @@ class Blog(db.Model):
     posted = db.Column(db.DateTime,default=datetime.utcnow)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     comment = db.relationship('Comment',backref = 'blogs',lazy = "dynamic")
-    # email = db.Column(db.String(255),unique = True,index = True)
+    email = db.Column(db.String(255),unique = True,index = True)
  
 
     def save_blog(self):
